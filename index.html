@@ -1,0 +1,815 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Intrusive measurements for particulate flows</title>
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/beige.css" id="theme">
+
+  <!-- Theme used for syntax highlighted code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+</head>
+
+<body>
+  <div class="reveal">
+    <style>
+      .reveal section pre code {
+        font-size: 0.8em !important;
+        line-height: normal !important;
+      }
+      .container {
+        display: flex;
+        font-size: smaller;
+      }
+      .col {
+        flex: 1;
+      }
+    </style>
+    <div class="slides">
+      
+      <section>
+        <h1>Intrusive measurements for particulate flows</h1>
+        <table style="font-size: smaller;">
+          <tr><td style="text-align: center;">Bart Janssens</td><td>Karim Limam</td></tr>
+          <tr><td style="text-align: center;"><img src="media/logo-rma.svg" height="150em"></td><td><img src="media/logo-ulr.png" height="150em"></td></tr>
+          <tr><td style="text-align: center;"><img src="media/logo-emma.svg" height="80em"></td><td><img src="media/logo-lasie.png" height="80em"></td></tr>
+        </table>
+        <p  style="font-size: smaller;">Online materials: <a href="https://github.com/barche/aerosol-measurement">https://github.com/barche/aerosol-measurement</a></p>
+      </section>
+
+      <section>
+        <section>
+          <h2>Objectives</h2>
+          <ul>
+            <li>Decide between intrusive and non-intrusive techniques</li>
+            <li>Risks in sampling</li>
+            <li>
+              Some common techniques
+              <ul>
+                <li>Filters</li>
+                <li>Optical Particle Counters</li>
+                <li>Differential Mobility analyzers</li>
+              </ul>
+            </li>
+            <li>Calibration techniques</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Reference material</h3>
+          <p><a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9781118001684">Aerosol Measurement: Principles, Techniques, and Applications, Third Edition (Kulkarni et al.)</a></p>
+          <img class="r-stretch" src="media/aerosol-measurement.jpg">
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Aerosol measurements</h2>
+          <img class="r-stretch" src="media/c130-dust.gif">
+          <p style="font-size: x-small; text-align: right;">Image source: <a href="https://youtu.be/v8qU9b_pyF8">AiirSource Military</a></p>
+          <aside class="notes">
+            <ul>
+              <li>This lecture is about measuring aerosols, i.e. droplets or solid particles suspended in air</li>
+              <li>We will mostly speak about relatively dilute flows, i.e. the volume fraction of air is much greater than the volume fraction of the particles</li>
+              <ul>
+                <li>Air quality quantification</li>
+                <li>Contaminant dispersion</li>
+                <li>Chemical warfare</li>
+                <li>Cloud droplets</li>
+                <li>Volcanic ash clouds</li>
+                <li>Sprays (far enough from the nozzle)</li>
+              </ul>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h3>What to measure</h3>
+          <ul>
+            <li class="fragment highlight-current-red">Particle size</li>
+            <li class="fragment highlight-current-red">Particle shape</li>
+            <li class="fragment highlight-current-red">Mass and number concentration</li>
+            <li class="fragment highlight-current-red">Size distributions</li>
+            <li class="fragment highlight-current-red">Chemical and physical properties</li>
+            <li class="fragment highlight-current-red">Flow properties</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Intrusive vs non-intrusive</h3>
+          <div class="container">
+            <div class="col">
+              <img src="media/grimm.jpg" height="300em">
+            </div>
+            <div class="col">
+              <img src="media/dantec-ldv.jpg" height="300em">
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Intrusive vs non-intrusive</h3>
+          <table style="font-size: 0.8em;">
+            <tr class="fragment highlight-current-red"><td>Sampling</td><td>In-situ</td></tr>
+            <tr class="fragment highlight-current-red"><td>No particle motion information</td><td>Online velocity information</td></tr>
+            <tr class="fragment highlight-current-red"><td>Full size range</td><td>Lower limit on sizes</td></tr>
+            <tr class="fragment highlight-current-red"><td>Full concentration range</td><td>Lower and upper limits</td></tr>
+            <tr class="fragment highlight-current-red"><td>Simple deployment</td><td>Requires alignment</td></tr>
+            <tr class="fragment highlight-current-red"><td>Extensive particle analysis possible</td><td>In-situ analysis only</td></tr>
+            <tr class="fragment highlight-current-red"><td>Time-averaged</td><td>Instantaneous</td></tr>
+          </table>
+          <aside class="notes">
+            <ul>
+              <li>Sampling: extract particles from the flow, analyse them immediately or later</li>
+              <li>Due to the sampling, all particle motion information is lost</li>
+              <li>Intrusive techniques are available for all sizes, starting conventionally at 1 nm.</li>
+              <li>While each technique has concentration limits, intrusive techniques can detect very low concentrations and can be used for e.g. clean room monitoring. If the flow is too dense, it can be diluted, meaning there is no real upper limit on the concentration.</li>
+              <li>Equipment is available that applies intrusive techniques in a highly automated way, although care must still be taken with the calibration.</li>
+              <li>Because intrusive techniques are sampling particles, extensive offline analysis is possible, and classical techniques from chemistry can be applied to determine e.g. chemical composition</li>
+              <li>Due to the sampling phase, intrusive techniques can't give real-time data, but always average over a period</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Intrusive vs non-intrusive</h3>
+            <p class="fragment highlight-current-red">Averaged information about the particles</p>
+            <p>$↔$</p>
+            <p class="fragment highlight-current-red">Instantaneous information about particles and their motion in a flow</p>
+            <aside class="notes">
+              <p>So in summary, intrusive techniques are appropriate when information about the particles themselves is mainly what is of interest. The non-intrusive techniques can offer information about the particle motion, but have a less extensive arsenal of particle analysis techniques.</p>
+            </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <img width="500em" src="media/full.svg">
+          <p>Original aerosol</p>
+          <aside class="notes">
+            <p>The original aerosol, arranged from left to right according to size. The subsequent steps may introduce errors in the sizing and miss particles.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <img width="500em" src="media/sampling.svg">
+          <p>After <span style="color: red;">sampling</span></p>
+          <aside class="notes">
+            <p>Larger particles may not follow the flow into the sampling inlet, and could impact with the surface and stick to it. Sometimes, this effect is exploited to explicitly exclude particles from the sample.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <img width="500em" src="media/intloss.svg">
+          <p>After <span style="color: red;">internal losses</span></p>
+          <aside class="notes">
+            <p>Internal losses account for particles lost inside the measurement device. These can also stick to the walls, but this loss is inherent to the measurement device that is used.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <img width="500em" src="media/sensor.svg">
+          <p>After <span style="color: red;">sensor response</span></p>
+          <aside class="notes">
+            <p>Depending on the sensor or analysis method, small particles may not be detected, and the size classification may be wrong id properties such as particle shape or index of refraction don't match the calibration.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <img width="500em" src="media/model.svg">
+          <p>After <span style="color: red;">processing</span></p>
+          <aside class="notes">
+            <p>Processing can involve e.g. an estimation of the size distribution, but the accuracy of this estimate depends on the number of particles that have been sampled. Since there are typically fewer large particles than small particles, the error is usually dependent on the size of the particles itself.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Steps in the measurement process</h3>
+          <ol style="font-size: smaller;">
+            <li>Original aerosol <img width="100em" src="media/full.svg"></li>
+            <li>After sampling <img width="100em" src="media/sampling.svg"></li>
+            <li>After internal losses <img width="100em" src="media/intloss.svg"></li>
+            <li>After sensor response <img width="100em" src="media/sensor.svg"></li>
+            <li>After processing <img width="100em" src="media/model.svg"></li>
+          </ol>
+          <p style="font-size: x-small; text-align: right;">Ref: <a href="https://www.wiley.com/en-be/Aerosol+Measurement%3A+Principles%2C+Techniques%2C+and+Applications%2C+3rd+Edition-p-9781118001677">Kulkarni, Baron and Willeke, 2011</a></p>
+        </section>
+      </section>
+
+      <section>
+        
+        <section>
+          <h2>Sampling</h2>
+        </section>
+
+        <section>
+          <h3>Representative sampling</h3>
+          <img class="r-stretch" src="media/sampling-setup.svg">
+          <aside class="notes">
+            <p>Representative sampling means that the particle properties, both in terms of statistics and individual properties, should not be affected by the trajectory through the inlet system. In practice, this is difficult due to the fact that particles don't follow the flow perfectly, and may stick to the wall. The inlet system may also filter out certain particle sizes more than others, skewing the size distribution that is registered by the instrument.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Causes for loss</h3>
+          <ul>
+            <li class="fragment highlight-current-red">Aspiration effects</li>
+            <li class="fragment highlight-current-red">Particle deposition</li>
+            <li class="fragment highlight-current-red">Coagulation, condensation, evaporation</li>
+            <li class="fragment highlight-current-red">Inhomogeneities in the aerosol cloud</li>
+            <li class="fragment highlight-current-red">Inhomogeneities in the inlet</li>
+            <li class="fragment highlight-current-red">Clogging of the inlet</li>
+            <li class="fragment highlight-current-red">Particle resuspension</li>
+          </ul>
+          <aside class="notes">
+            <p>Different effects inside and around the sampling inlet may cause particles to be lost or statistics to be skewed. The effects of these can be quantified using efficiencies.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Efficiencies</h3>
+          <p>Aspiration efficiency</p>
+          <p style="color: blue;">$η_\mathrm{asp} = \frac{c_\mathrm{in}}{c_\mathrm{aerosol}}$</p>
+          <img class="r-stretch" src="media/aspiration-efficiency.svg">
+          <aside class="notes">
+            <p>The aspiration efficiency is the ratio of the concentration of particles entering the inlet with respect to the
+              concentration of the particles in the original aerosol. It depends on the particle size (or Stokes number) and the
+              shape of the inlet, its orientation with respect to the flow and the relative velocity between the velocity of the
+              cloud and the flow velocity in the inlet.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Efficiencies</h3>
+          <p>Transmission efficiency</p>
+          <p style="color: blue;">$η_\mathrm{trans} ≡ \frac{c_\mathrm{out}}{c_\mathrm{in}}$</p>
+          <img class="r-stretch" src="media/transmission-efficiency.svg">
+          <aside class="notes">
+            <p>The transmission efficiency is the ratio of the concentration of particles leaving the inlet with respect to the
+              concentration of the particles entering the inlet. It depends on the particle size (or Stokes number) and the
+              shape of the inlet, its orientation with respect to gravity and the Reynolds number of the flow in the inlet.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Efficiencies</h3>
+          <p>Inlet efficiency</p>
+          <p style="color: blue;">$η_\mathrm{inlet} ≡ η_\mathrm{asp} η_\mathrm{trans}$</p>
+          <ul>
+            <li>
+              Inlet efficiency depends on
+              <ul>
+                <li>Particle size (or St)</li>
+                <li>Flow conditions</li>
+              </ul>
+            </li>
+          </ul>
+          <aside class="notes">
+            <p>The transmission efficiency is the ratio of the concentration of particles leaving the inlet with respect to the
+              concentration of the particles entering the inlet. It depends on the particle size (or Stokes number) and the
+              shape of the inlet, its orientation with respect to gravity and the Reynolds number of the flow in the inlet.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sampling in a flow</h3>
+          <p>Isokinetic</p>
+          <img class="r-stretch" src="media/aspiration-iso.svg">
+          <aside class="notes">
+            <p>In isokinetic sampling, the velocity in the sampling channel is the same as the free stream velocity.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sampling in a flow</h3>
+          <p>Super-isokinetic</p>
+          <img class="r-stretch" src="media/aspiration-super.svg">
+          <aside class="notes">
+            <p>In super-isokinetic sampling, the velocity in the sampling channel is greater than the free stream velocity.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Sampling in a flow</h3>
+          <p>Sub-isokinetic</p>
+          <img class="r-stretch" src="media/aspiration-sub.svg">
+          <aside class="notes">
+            <p>In sub-isokinetic sampling, the velocity in the sampling channel is less than the free stream velocity.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Isoaxial aspiration efficiency</h4>
+          <p><a href="https://doi.org/10.1080/02786828808959190">Rader & Marple, 1987:</a></p>
+          <p style="color: blue;">$η_\mathrm{asp} =  1+\left(\frac{u_0}{u} - 1\right) \left(1 - \frac{1}{1+3.77 \mathrm{St}^{0.883}}\right)$</p>
+          <ul>
+            <li>
+              Maximum error 5 % if:
+              <ul>
+                <li>$0.005 < \mathrm{St} < 10$</li>
+                <li>$0.5 < \frac{u_0}{u} < 5$</li>
+              </ul>
+            </li>
+            <li>Note: $\mathrm{St} ≡ \frac{τu_0}{d}$</li>
+          </ul>
+          <aside class="notes">
+            <p>Correlations exist for the aspiration efficiency, such as this one derived by Rader & Marple for isoaxial sampling. The efficiency depends on particle size (Stokes number, here defined with respect to the sampling pipe diameter) and the flow velocity ratio.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Isoaxial aspiration efficiency</h4>
+          <img class="r-stretch" src="media/aspeff-isoax.svg">
+          <p>$η_\mathrm{asp} =  1+\left(\color{red}{\frac{u_0}{u}} - 1\right) \left(1 - \frac{1}{1+3.77 \color{red}{\mathrm{St}}^{0.883}}\right)$</p>
+          <aside class="notes">
+            <p>Here, we can see the effect of both parameters. Note that for sub-isokinetic sampling we may get an aspiration efficiency higher than one, because particles fall through the streamlines into the sampling inlet.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Anisoaxial sampling</h4>
+            <img class="r-stretch" src="media/aspiration-anisoaxial.gif">
+            <img src="media/anisoax-legend.svg" width="150em">
+            <aside class="notes">
+              <p>If we take into account an angle between the flow and the sampling inlet, the aspiration efficiency will decrease further, mainly due to inertial effects, as can be seen by the fact that the decrease is sharpest for the largest Stokes numbers.</p>
+            </aside>
+        </section>
+
+        <section>
+          <h4>Sampling in calm air</h4>
+          <img class="r-stretch" src="media/aspeff-calm.svg">
+          <p style="font-size: smaller;">
+            \begin{equation}
+            η_\mathrm{asp} = \color{red}{\frac{v_{ts}}{u}} \cos{\color{red}{φ}} + \exp\left(-\frac{4\color{red}{\mathrm{St}}^{\left(1+\sqrt{\color{red}{\frac{v_{ts}}{u}}}\right)}}{1+2\color{red}{\mathrm{St}}}\right)
+            \end{equation}
+          </p>
+          <p style="font-size: x-small; text-align: right;">Ref: <a href="https://doi.org/10.1016/0960-1686(93)90132-I">Grinshpun, Willeke & Kalatoor, 1993</a></p>
+          <aside class="notes">
+            <p>In the case of calm air, particle inertia quickly reduces the aspiration efficiency as the Stokes number increases. It is also possible to combine aspiration efficiencies for calm air with those from moving air using a blending function.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Transmission efficiency</h3>
+          <p style="color: blue;">$η_\mathrm{trans} ≡ \frac{c_\mathrm{out}}{c_\mathrm{in}}$</p>
+          <img class="r-stretch" src="media/transmission-efficiency.svg">
+          <aside class="notes">
+            Once past the inlet plane, the particles are still subjected to losses due to gravitational settling, inertia, diffusion and turbophoresis.
+          </aside>
+        </section>
+
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to inertia</p>
+          <img class="r-stretch" src="media/inertialoss.svg">
+          <aside class="notes">
+            <p>Losses at the inlet happen in the case of sub-isokinetic sampling, where particles that can't completely follow the stream tube hit the wall. In the case of super-isokinetic sampling, the inertial losses can be neglected in a first approximation, or the flow contraction at the inlet with the associated separation bubble can cause inertial deposition.</p>
+          </aside>
+        </section>
+        
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to gravity</p>
+          <img class="r-stretch" src="media/gravityloss.svg">
+          <aside class="notes">
+            <p>Gravitational settling can be avoided by keeping the gas speed large with respect to the settling speed, and by placing the sampling inlet and ducting vertically.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to brownian motion</p>
+          <img class="r-stretch" src="media/diffusionloss.svg">
+          <aside class="notes">
+            <p>Very small (< 100 nm) particles move due to the molecular motions in the fluid.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to turbophoresis</p>
+          <img class="r-stretch" src="media/turboloss.svg">
+          <aside class="notes">
+            <p>Due to turbophoresis, particles in turbulent flow tend to migrate towards the wall, depending on their Stokes number.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to thermophoresis</p>
+          <img class="r-stretch" src="media/thermoloss.svg">
+          <aside class="notes">Thermophoresis effects occur when the gas stream is hotter than the probe walls. It can be avoided by heating the probe or cooling the gas.</aside>
+        </section>
+
+        <section>
+          <h3>Transmission losses</h3>
+          <p>Loss due to electrophoresis</p>
+          <img class="r-stretch" src="media/electroloss.svg">
+          <aside class="notes">Electrophoresis is avoided by using a conductive material for the pipes. Avoid materials such as Teflon.</aside>
+        </section>
+
+        <section>
+          <h3>Dilution</h3>
+          <img class="r-stretch" src="media/diluter.svg">
+          <p>$DR = \frac{Q_t}{Q_s} = \frac{Q_d + Q_s}{Q_s} = \frac{Q_t}{Q_t-Q_d}$</p>
+          <aside class="notes">
+            <p>
+              Due to the conservation of mass, we only need to measure two out of the three mass flows involved in the dilution process. Given that mass flows are measured with a given accuracy, the choice will influence the accuracy of the result.
+            </p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Measure $Q_t$ and $Q_s$ ($DR = \frac{Q_t}{Q_s}$)</h4>
+          <p style="font-size: smaller;">
+            \begin{eqnarray}
+            (Δ DR)^2 &=& \left(\frac{∂ DR}{∂Q_t}\right)^2 (ΔQ_t)^2 + \left(\frac{∂ DR}{∂Q_s}\right)^2 (ΔQ_s)^2\\
+            &=& \frac{1}{Q_s^2} (ΔQ_t)^2 + \frac{Q_t^2}{Q_s^4} (ΔQ_t)^2\\
+            &=& \frac{Q_t^2}{Q_s^2} \left(\frac{ΔQ_t}{Q_t}\right)^2 + \frac{Q_t^2}{Q_s^2} \left(\frac{ΔQ_s}{Q_s}\right)^2
+            \end{eqnarray}
+            <p style="color: blue;">$⇒ Δ_\% DR = \sqrt{\left(\Delta_\% Q_t\right)^2 + \left(\Delta_\% Q_s\right)^2}$</p>
+          </p>
+        </section>
+
+        <section>
+          <h4>Measure $Q_d$ and $Q_s$ ($DR = \frac{Q_d + Q_s}{Q_s}$)</h4>
+          <p style="font-size: smaller;">
+            \begin{eqnarray}
+            (Δ DR)^2 &=& \frac{1}{Q_s^2} (ΔQ_d)^2 + \frac{Q_d^2}{Q_s^4} (ΔQ_s)^2\\
+            &=& \frac{Q_d^2}{Q_s^2} (Δ_\%Q_d)^2 + \frac{Q_d^2}{Q_s^2} (Δ_\%Q_s)^2\\
+            &=& (DR-1)^2\left((Δ_\%Q_d)^2 + (Δ_\%Q_s)^2\right)\\
+            \end{eqnarray}
+          <p style="color: blue;">$⇒ Δ_\% DR = \left(1-\frac{1}{DR}\right)\sqrt{(\Delta_\% Q_d)^2 + (\Delta_\% Q_s)^2}$</p>
+          </p>
+        </section>
+
+        <section>
+          <h4>Measure $Q_d$ and $Q_t$ ($DR = \frac{Q_t}{Q_t-Q_d}$)</h4>
+          <p style="font-size: smaller;">
+            \begin{eqnarray}
+            (Δ DR)^2 &=& \frac{Q_t^2}{(Q_t - Q_d)^4} (ΔQ_d)^2 + \frac{Q_d^2}{(Q_t - Q_d)^4} (ΔQ_t)^2\\
+            &=& \left(\frac{Q_d}{Q_t-Q_d}DR\right)^2\left((Δ_\%Q_d)^2 + (Δ_\%Q_t)^2\right)\\
+            &=& ((DR-1)DR)^2\left((Δ_\%Q_d)^2 + (Δ_\%Q_t)^2\right)\\
+            \end{eqnarray}
+          <p style="color: blue;">$⇒ Δ_\% DR = \left(DR-1\right)\sqrt{(\Delta_\% Q_d)^2 + (\Delta_\% Q_t)^2}$</p>
+          </p>
+        </section>
+
+        <section>
+          <h4>Dilution ratio error</h4>
+          <img class="r-stretch" src="media/dilution-errors.svg">
+          <aside class="notes">
+            <p>The best approach is to measure the dilution and sampling flows, although the advantage levels off as the dilution ratio increases.</p>
+          </aside>
+        </section>
+      </section>
+
+      <section>
+        <section><h2>Sampling using filters</h2></section>
+
+        <section>
+          <h3>Sampling chain</h3>
+          <img class="r-stretch" src="media/filter-chain.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://onlinelibrary.wiley.com/doi/book/10.1002/9781118001684">Aerosol Measurement: Principles, Techniques, and Applications, Third Edition</a></p>
+        </section>
+
+        <section>
+          <h3>Filter principles</h3>
+          <img class="r-stretch" src="media/sieve.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://www.afprofilters.com">AFPRO Filters</a></p>
+        </section>
+
+        <section>
+          <h3>Filter principles</h3>
+          <img class="r-stretch" src="media/inertial.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://www.afprofilters.com">AFPRO Filters</a></p>
+        </section>
+
+        <section>
+          <h3>Filter principles</h3>
+          <img class="r-stretch" src="media/intercept.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://www.afprofilters.com">AFPRO Filters</a></p>
+        </section>
+
+        <section>
+          <h3>Filter principles</h3>
+          <img class="r-stretch" src="media/diffusion.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://www.afprofilters.com">AFPRO Filters</a></p>
+        </section>
+
+        <section>
+          <h3>Filter principles</h3>
+          <img class="r-stretch" src="media/filtersizes.png">
+          <p style="font-size: x-small; text-align: right;">Figure: <a href="https://www.afprofilters.com">AFPRO Filters</a></p>
+        </section>
+
+        <section>
+          <h3>Filter types</h3>
+          <p>PTFE membrane filter</p>
+          <img class="r-stretch" src="media/ptfe-filter.jpg">
+        </section>
+
+        <section>
+          <h3>Analysis methods</h3>
+          <ul>
+            <li>Gravimetric analysis</li>
+            <li>Microscopy</li>
+            <li>Chemical</li>
+            <li>Biological</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Artifacts</h3>
+
+          <ul>
+            <li class="fragment highlight-current-red">Moisture</li>
+            <li class="fragment highlight-current-red">Vapor adsorption</li>
+            <li class="fragment highlight-current-red">Volatilization</li>
+            <li class="fragment highlight-current-red">Particle bounce</li>
+          </ul>
+          <aside class="notes">
+            <ul>
+              <li>Moisture: can affect the mass of the filter</li>
+            </ul>
+          </aside>
+        </section>
+
+      </section>
+
+      <section>
+        <section>
+          <h2>Optical particle counters</h2>
+          <div class="container">
+            <div class="col">
+              <img height="300em" src="media/grimm.jpg">
+              <p style="font-size: x-small; text-align: right;">Image: <a href="https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/">GRIMM Aerosol Technik</a></p>
+            </div>
+            <div class="col">
+              <img height="300em" src="media/frog.jpg">
+              <p style="font-size: x-small; text-align: right;">Image: <a href="https://www.palas.de/en/product/fidasfrog">Palas</a></p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h3>Physical principle: light scattering</h3>
+          <img class="r-stretch" src="media/Mie_scattering.svg">
+          <p style="font-size: x-small; text-align: right;">Image: <a href="https://commons.wikimedia.org/wiki/File:Mie_scattering.svg">Sharayanan, CC BY-SA 3.0</a></p>
+          <aside class="notes">
+            <p>As a light beam hits a particle (from the left, in this image), light gets scattered in all directions. The intensity and angles depend on the index of refraction, light wavelength and the particle size and shape.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Mie theory</h4>
+          <img width="100em" src="media/mie-angle-sketch.svg"> <img class="r-stretch" src="media/mieangles.svg">
+          <aside class="notes">
+            <p>The Mie light scattering theory provides a solution for the Maxwell equations in the case of a plane wave interacting with a homogeneous spherical particle.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h4>Particle size influence</h4>
+          <p style="font-size: smaller;">Single wavelength, forward scattering ($θ = 0$)</p>
+          <img width="100em" src="media/mie-angle-sketch.svg"> <img class="r-stretch" src="media/mie-sizeresponse.svg">
+        </section>
+
+        <section>
+          <h4>Wavelength influence</h4>
+          <p style="font-size: smaller;">Forward scattering ($θ = 0$)</p>
+          <img width="100em" src="media/mie-angle-sketch.svg"> <img class="r-stretch" src="media/mie-wavelengths.svg">
+        </section>
+
+        <section>
+          <h4>Index of refraction influence</h4>
+          <p style="font-size: smaller;">Forward scattering ($θ = 0$)</p>
+          <img width="100em" src="media/mie-angle-sketch.svg"> <img class="r-stretch" src="media/mie-refidx.svg">
+          <aside class="notes">
+            <p>Optical particle counters are calibrated using particles with a given index of refraction. Any deviation from this introduces errors in the sizing.</p>
+          </aside>
+        </section>
+
+        <section>
+          <h3>Optical particle counter layout</h3>
+          <img class="r-stretch" src="media/Particlecounter.png">
+          <p style="font-size: x-small; text-align: right;">Schematic: <a href="https://en.wikipedia.org/wiki/File:Particlecounter.jpg">Wikipedia</a></p>
+        </section>
+
+        <section>
+          <h3>Response function</h3>
+          <img class="r-stretch" src="media/heim.png">
+          <p style="font-size: x-small; text-align: right;">Graph: <a href="https://doi.org/10.1016/j.jaerosci.2008.07.006">Heim et al.</a></p>
+        </section>
+
+        <section>
+          <h3>Sources for errors</h3>
+          <ul>
+            <li class="fragment highlight-current-red">Inlet losses</li>
+            <li class="fragment highlight-current-red">Coincidence</li>
+            <li class="fragment highlight-current-red">Wrong index of refraction</li>
+            <li class="fragment highlight-current-red">Particle shape</li>
+            <li class="fragment highlight-current-red">Recirculation</li>
+            <li class="fragment highlight-current-red">Border zone illumination</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Concentration limits</h3>
+          <ul>
+            <li class="fragment highlight-current-red">
+              Upper limit
+              <ul>
+                <li>Limited by coincidence and recovery time</li>
+                <li>Limit sample flow rate</li>
+                <li>Dilute inlet</li>
+              </ul>
+            </li>
+            <li class="fragment highlight-current-red">
+              Lower limit
+              <ul>
+                <li>Depends on number of "noise pulses"</li>
+                <li>Lower limit = 1 order above noise count</li>
+                <li>Might be leaks or recirculation</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Size limits</h3>
+          <ul>
+            <li class="fragment highlight-current-red">
+              Lower limit
+              <ul>
+                <li>Detector limit</li>
+                <li>Gradual decrease in the sub-μm range</li>
+                <li>Increase lightsource power</li>
+                <li>Problem: Rayleigh-scattering of air (1 mm³ = 0.2 μm)</li>
+                <li>Not always 50 % efficiency for lower limit!</li>
+              </ul>
+            </li>
+            <li class="fragment highlight-current-red">
+              Lower limit
+              <ul>
+                <li>Depends on number of "noise pulses"</li>
+                <li>Lower limit = 1 order above noise count</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+        
+      </section>
+
+      <section>
+        <section><h2>Differential Mobility Analyzer</h2></section>
+
+        <section>
+          <h3>Differential Mobility Analyzer</h3>
+          <img class="r-stretch" src="media/flagan.png">
+          <p style="font-size: x-small; text-align: right;">Graph: <a href="https://doi.org/10.14356/kona.2008023">Flagan, 2008</a></p>
+        </section>
+
+        <section>
+          <h3>Differential Mobility Analyzer</h3>
+          <img class="r-stretch" src="media/electric-mobility.png">
+          <p style="font-size: x-small; text-align: right;">Image: <a href="https://doi.org/10.1016/0021-8502(75)90060-9">Knutson & Whitby, 1975</a></p>
+        </section>
+
+        <section>
+          <h3>DMA properties</h3>
+          <ul>
+            <li>Can classify down to the nm range</li>
+            <li>Quite slow to operate</li>
+            <li>Radioactive source required for particle charging</li>
+            <li>Detector: typically CPC</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section><h2>Calibration</h2></section>
+
+        <section>
+          <h3>Size calibration</h3>
+          <p>Monodisperse reference</p>
+          <img class="r-stretch" src="media/polybead.png">
+          <p style="font-size: x-small; text-align: right;">Photo: <a href="https://www.polysciences.com">Polysciences</a></p>
+        </section>
+
+        <section>
+          <h3>Size calibration</h3>
+          <img class="r-stretch" src="media/2000nm.jpg">
+        </section>
+
+        <section>
+          <h3>Size calibration</h3>
+          <img class="r-stretch" src="media/spheres 2 micron xtdocu mes.jpg">
+        </section>
+
+        <section>
+          <h3>Size calibration</h3>
+          <p>Atomization</p>
+          <img class="r-stretch" src="media/royco.png">
+        </section>
+
+        <section>
+          <h4>Pitfalls</h4>
+          <ul>
+            <li class="fragment highlight-current-red">Polydispersity</li>
+            <ul>
+              <li>Surfactant</li>
+              <li>Agglomeration</li>
+            </ul>
+            <li class="fragment highlight-current-red">Difference in composition vs. application</li>
+            <li class="fragment highlight-current-red">Health hazards</li>
+          </ul>
+        </section>
+
+        <section>
+          <h4>Particle counter example</h4>
+          <img class="r-stretch" src="media/monodisperse-grimm.png">
+        </section>
+
+        <section>
+          <h3>Known polydisperse source</h3>
+          <ul>
+            <li class="fragment highlight-current-red">DEHS oil droplet aerosol generator</li>
+            <li class="fragment highlight-current-red">Pass through charge neutralizer</li>
+            <li class="fragment highlight-current-red">Classify using Differential Mobility Analyzer</li>
+            <li class="fragment highlight-current-red">Calibrate</li>
+          </ul>
+          <p style="font-size: x-small; text-align: right;">Ref: <a href="https://doi.org/10.1016/j.jaerosci.2008.07.006">Heim et al.</a></p>
+        </section>
+
+        <section>
+          <h3>Index of refraction correction</h3>
+          <img class="r-stretch" src="media/refind-correction.png">
+          <p style="font-size: x-small; text-align: right;">Ref: <a href="https://doi.org/10.3402/tellusb.v67.28339">Bundke et al.</a></p>
+        </section>
+
+        <section>
+          <h3>Mass concentration correction</h3>
+          <ul>
+            <li class="fragment highlight-current-red">Particle counter: mass based on assumed density</li>
+            <li class="fragment highlight-current-red">Correct with known density</li>
+            <li class="fragment highlight-current-red">Weighing of filter</li>
+            <li class="fragment highlight-current-red">Different index of refraction ⇒ non-linear</li>
+          </ul>
+        </section>
+
+      </section>
+
+      <section>
+        <h2>Summary</h2>
+        <ul>
+          <li>Intrusive vs. non-intrusive: choose wisely</li>
+          <li>Know your sampling line</li>
+          <li>Know your sensor limitations</li>
+          <li>Check instrument performance with known sources</li>
+        </ul>
+      </section>
+
+
+
+    </div>
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script src="plugin/math/math.js"></script>
+  <script src="plugin/chalkboard/plugin.js"></script>
+  <script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+      transition: 'fade',
+      hash: true,
+      chalkboard: {
+        boardmarkerWidth: 3,
+        chalkWidth: 3,
+        src: 'compressors-chalk.json',
+        boardmarkers: [
+          { color: 'rgba(50,205,50,1)', cursor: 'url(' + path + 'img/boardmarker-green.png), auto' },
+          { color: 'rgba(30,30,255, 1)', cursor: 'url(' + path + 'img/boardmarker-blue.png), auto' },
+          { color: 'rgba(220,20,20,1)', cursor: 'url(' + path + 'img/boardmarker-red.png), auto' },
+        ],
+      },
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMath, RevealChalkboard]
+    });
+  </script>
+</body>
+
+</html>
